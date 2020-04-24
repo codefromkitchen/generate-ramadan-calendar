@@ -12,6 +12,7 @@ def load_table():
     table_from_pdf = tabula.read_pdf(INPUT_FILE_PATH, pages='all')
 
     # table_from_pdf[0] contains whole table, separated by " " (whitespace)
+    # todo: this is a tricky part, times are also separated by " "
     print(table_from_pdf[0])
 
     """

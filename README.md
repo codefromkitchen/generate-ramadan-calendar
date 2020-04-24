@@ -1,4 +1,4 @@
-### generate-ramadan-calendar
+### Generate Ramadan Calendar
 This program will take a PDF file as an Input and will create google calendar event from there. 
 
 This project have two goals (so far) 

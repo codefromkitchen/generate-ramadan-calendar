@@ -1,8 +1,6 @@
 from ics import Calendar, Event
 from pdfreader import load_table, get_events
 
-# start loading pdf
-load_table()
 
 c: Calendar = Calendar()
 e = Event()

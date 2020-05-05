@@ -1,6 +1,5 @@
 from ics import Calendar, Event
-from pdfreader import load_table, get_events
-
+from pdfreader import *
 c: Calendar = Calendar()
 
 
@@ -14,12 +13,13 @@ def debug_event():
 # get events from pdfreader module
 all_events = get_events()
 
-for ev in all_events:
-    e = Event()
-    e.name = ev["title"]
-    e.begin = ev["start_time"]
-    # e.duration = ''
-    c.events.add(e)
+for keys in all_events.keys():
+    for values in all_events[keys]:
+        e = Event()
+        e.name = keys
+        e.begin = values # ev["start_time"]
+        # e.duration = ''
+        c.events.add(e)
 
 with open('my_cal.ics', 'w') as f:
     f.write(str(c))

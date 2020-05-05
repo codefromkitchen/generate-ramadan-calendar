@@ -1,4 +1,5 @@
 import tabula
+from datetime import datetime
 from config import *
 
 table_from_pdf = {}
@@ -13,7 +14,7 @@ def load_table():
 
     # table_from_pdf[0] contains whole table, separated by " " (whitespace)
     # todo: this is a tricky part, times are also separated by " "
-    print(table_from_pdf[0])
+    table = table_from_pdf[0]
 
     """
           رمضان IMSAK SUBUH SYURUK ZOHOR  ASAR MAGHRIB ISYAK April 2020
@@ -51,16 +52,32 @@ def load_table():
     31       29  5 24  5 34   6 57  1 03  4 27    7 08  8 21  22/5/2020
     32       30  5 24  5 34   6 57  1 03  4 27    7 08  8 21  23/5/2020
     """
-    return table_from_pdf[0]  # or just return the columns necessary
+
+    table.drop(table.columns[[0, 2, 3, 4, 5, 7]], axis=1, inplace=True)
+    return table.dropna() # or just return the columns necessary
 
 
-# todo: @kazilamisa
-# returns a dict of events { date, time, title } to be added as a calendar
+def format_date_time(date,time):
+    in_time = datetime.strptime(time, "%I:%M %p")
+    out_time = datetime.strftime(in_time, "%H:%M:%S")
+
+    in_date = datetime.strptime(date, '%d/%m/%Y')
+    out_date = str(in_date.date())
+    return out_date+'T'+out_time+UTC_TIME_DELTA
+
+# gets all events as a dictionary
 def get_events():
+    table = load_table() # loading table from pdf
+    table_from_pdf = table.set_index('April 2020').T.to_dict('list') # dictionary
+    print(table_from_pdf)
+    all_events[SAHR_END_LABEL] = list()
+    all_events[FAST_END_LABEL] = list()
+
     # todo: process 12 hour time to 24 hour time here
+    for keys , values in table_from_pdf.items():
+        all_events[SAHR_END_LABEL].append(format_date_time(keys, ':'.join(values[0].split()) + " AM"))
+        all_events[FAST_END_LABEL].append(format_date_time(keys, ':'.join(values[1].split()) + " PM"))
+    print(all_events)
 
-    # todo: process utc time here
-    # UTC_TIME_DELTA etc.
-
-    # return start_time, title here
     return all_events
+#get_events()

@@ -56,7 +56,6 @@ def load_table():
     table.drop(table.columns[[0, 2, 3, 4, 5, 7]], axis=1, inplace=True)
     return table.dropna() # or just return the columns necessary
 
-
 def format_date_time(date,time):
     in_time = datetime.strptime(time, "%I:%M %p")
     out_time = datetime.strftime(in_time, "%H:%M:%S")
@@ -73,11 +72,10 @@ def get_events():
     all_events[SAHR_END_LABEL] = list()
     all_events[FAST_END_LABEL] = list()
 
-    # todo: process 12 hour time to 24 hour time here
     for keys , values in table_from_pdf.items():
         all_events[SAHR_END_LABEL].append(format_date_time(keys, ':'.join(values[0].split()) + " AM"))
         all_events[FAST_END_LABEL].append(format_date_time(keys, ':'.join(values[1].split()) + " PM"))
     print(all_events)
 
     return all_events
-#get_events()
+

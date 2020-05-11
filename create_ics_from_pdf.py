@@ -18,7 +18,8 @@ for keys in all_events.keys():
         e = Event()
         e.name = keys
         e.begin = values # ev["start_time"]
-        # e.duration = ''
+        e.location = 'Singapore'
+        e.end = values
         c.events.add(e)
 
 with open('my_cal.ics', 'w') as f:
